@@ -35,10 +35,13 @@ def create_app(db_url=None):
     migrate = Migrate(app, db)
     api = Api(app)
 
-    app.config["JWT_SECRET_KEY"] = "jose"
-    jwt = JWTManager(app)
 
 
     api.register_blueprint(UserBlueprint)
 
     return app
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True)

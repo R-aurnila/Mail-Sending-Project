@@ -12,7 +12,6 @@ from googleapiclient.errors import HttpError
 
 
 from db import db
-from sqlalchemy import or_
 from models import UserModel
 from schemas import UserPostSchema
 from schemas import UserRegisterSchema

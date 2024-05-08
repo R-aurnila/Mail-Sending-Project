@@ -13,9 +13,7 @@ def gmail_send_message(user_data):
   
   name = user_data["username"]
   message = EmailMessage()
-
   message.set_content(f"Welcome!{name}. You have registered successfully!")
-
   message["To"] = user_data["email"]
   message["From"] = "tasnim.kuet.ece.1809003@gmail.com"
   message["Subject"] = "Register mail"
@@ -25,7 +23,7 @@ def gmail_send_message(user_data):
   # Load credentials from token.json file
   with open('token.json', 'r') as token_file:
     credentials_data = token_file.read()
-
+    
   credentials = Credentials.from_authorized_user_info(json.loads(credentials_data))
   # Build Gmail service with provided credentials
   service = build('gmail', 'v1', credentials=credentials)

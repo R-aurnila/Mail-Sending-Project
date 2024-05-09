@@ -1,5 +1,7 @@
-.venv
+.venv 
 data.db
 *.pyc
 .DS_store
 __pycache__
+credentials.json
+token.json

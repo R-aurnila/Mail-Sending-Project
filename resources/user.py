@@ -8,7 +8,9 @@ from db import db
 from models import UserModel
 from schemas import UserPostSchema
 from schemas import UserRegisterSchema
-from tasks import gmail_send_message
+from resources.tasks import gmail_send_message
+from email_validator import validate_email, EmailNotValidError
+
 
 blp = Blueprint("Users", "users", description="Operations on users")
 @blp.route("/register")
@@ -22,15 +24,23 @@ class UserRegister(MethodView):
         user = UserModel(
             username=user_data["username"],
             email=user_data["email"],
-            password=user_data["password"],
+            password=user_data["password"],    
         )
+        email = user_data["email"]
+        
+        try:
+            emailinfo = validate_email(email, check_deliverability=False)
+            email = emailinfo.normalized
+        except EmailNotValidError as e:
+            return {"error": str(e)}
+
         try:
             db.session.add(user)
             db.session.commit()
             current_app.queue.enqueue(gmail_send_message, user_data)
             return {"message": "User created successfully."}, 201
         except:
-            return {"Internal server error"}, 500
+            return {"Internal server error"}, 5050
 
     
 user_blp = Blueprint('user', 'user', url_prefix='/user') 

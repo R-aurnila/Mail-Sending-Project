@@ -13,3 +13,5 @@ google-auth
 google-api-python-client
 rq
 redis
+validate_email
+email_validator

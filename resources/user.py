@@ -40,7 +40,7 @@ class UserRegister(MethodView):
             current_app.queue.enqueue(gmail_send_message, user_data)
             return {"message": "User created successfully."}, 201
         except:
-            return {"Internal server error"}, 5050
+            return {"Internal server error"}, 500
 
     
 user_blp = Blueprint('user', 'user', url_prefix='/user') 

@@ -10,7 +10,7 @@ from schemas import UserPostSchema
 from schemas import UserRegisterSchema
 from resources.tasks import gmail_send_message
 from email_validator import validate_email, EmailNotValidError
-from psycopg2 import DatabaseError
+from sqlalchemy.exc import SQLAlchemyError
 
 
 blp = Blueprint("Users", "users", description="Operations on users")
@@ -40,8 +40,9 @@ class UserRegister(MethodView):
             db.session.commit()
             current_app.queue.enqueue(gmail_send_message, user_data)
             return {"message": "User created successfully."}, 201
-        except DatabaseError as e:
-            raise DatabaseError("Failed to save user info into the database: {}".format(str(e)))
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return {"error": f"Failed to save user info into the database: {str(e)}"}, 500
 
     
 user_blp = Blueprint('user', 'user', url_prefix='/user') 

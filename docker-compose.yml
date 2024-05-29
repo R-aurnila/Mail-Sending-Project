@@ -9,7 +9,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://redis:6379/
       DATABASE_URL: sqlite:///data.db
     depends_on:
       - redis
@@ -20,8 +20,7 @@ services:
     volumes:
       - .:/app
     environment:
-      REDIS_URL: redis://redis:6379/0
-      DATABASE_URL: sqlite:///data.db
+      REDIS_URL: redis://redis:6379/
     depends_on:
       - redis
 

@@ -33,7 +33,7 @@ class UserRegister(MethodView):
             emailinfo = validate_email(email, check_deliverability=False)
             email = emailinfo.normalized
         except EmailNotValidError as e:
-            return {"error": str(e)}
+            return {"error": str(e)}, 403
 
         try:
             db.session.add(user)
